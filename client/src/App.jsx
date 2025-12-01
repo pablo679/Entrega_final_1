@@ -1,77 +1,54 @@
 
-import React, { useState, useEffect } from 'react';
-
-// Importamos nuestros componentes finales
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import ProductList from './components/ProductList';
-import ProductDetail from './components/ProductDetail';
 import Footer from './components/Footer';
-import ContactForm from './components/ContactForm';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Profile from './pages/Profile';
+import Orders from './pages/Orders';
+import Cart from './pages/Cart';
+import { useAuth } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import AddToCartToast from './components/AddToCartToast';
 
 function App() {
-  const [products, setProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [cart, setCart] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetch('http://localhost:3001/api/productos')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Error al conectar con la API. Verifica que el backend esté funcionando.');
-        }
-        return response.json();
-      })
-      .then(data => {
-        setProducts(data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error al obtener los productos:', error);
-        setError(error.message);
-        setLoading(false);
-      });
-  }, []);
-
-  const handleSelectProduct = (product) => {
-    setSelectedProduct(product);
-  };
-
-  const handleBackToList = () => {
-    setSelectedProduct(null);
-  };
-
-  const handleAddToCart = (productToAdd) => {
-    setCart([...cart, productToAdd]);
-    alert(`${productToAdd.name} fue añadido al carrito.`);
-  };
-
-  if (loading) return <div>Cargando productos...</div>;
-  if (error) return <div>Error: {error}</div>;
+  const { isAuthenticated } = useAuth();
 
   return (
     <>
-      <Navbar cartItemCount={cart.length} />
+      <Navbar />
 
-      <main>
-        {selectedProduct ? (
-          <ProductDetail 
-            product={selectedProduct} 
-            onAddToCart={handleAddToCart} 
-            onBack={handleBackToList} 
-          />
-        ) : (
-          <>
-            <ProductList 
-              products={products} 
-              onSelectProduct={handleSelectProduct} 
-            />
-            <ContactForm />
-          </>
-        )}
-      </main>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/login"
+          element={isAuthenticated ? <Navigate to="/" replace /> : <Login />}
+        />
+        <Route
+          path="/registro"
+          element={isAuthenticated ? <Navigate to="/" replace /> : <Register />}
+        />
+        <Route
+          path="/perfil"
+          element={(
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          )}
+        />
+        <Route
+          path="/mis-pedidos"
+          element={(
+            <ProtectedRoute>
+              <Orders />
+            </ProtectedRoute>
+          )}
+        />
+        <Route path="/carrito" element={<Cart />} />
+      </Routes>
 
+      <AddToCartToast />
       <Footer />
     </>
   );

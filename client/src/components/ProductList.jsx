@@ -3,7 +3,7 @@ import ProductCard from './ProductCard';
 
 function ProductList({ products, onSelectProduct }) {
   return (
-    <section className="catalog-section">
+    <section className="catalog-section" id="productos">
         <div className="container">
             <div className="catalog-header">
                 <h1>Nuestro Catálogo</h1>
