@@ -4,8 +4,8 @@ Aplicación e‑commerce con frontend React/Vite y backend Express/MongoDB. Incl
 
 ## Enlaces de despliegue
 - Repositorio: https://github.com/pablo679/final_1.git
-- Frontend (Vercel/Netlify): _pendiente de publicar_
-- Backend (Render): _pendiente de publicar_
+- Frontend (Netlify): https://coruscating-tapioca-385372.netlify.app
+- Backend (Render): https://final-1-1-nazf.onrender.com
 
 ## Arquitectura breve
 - Monorepo: `/client` (SPA React + Vite) y `/backend` (API REST Express + Mongoose).
@@ -27,7 +27,7 @@ npm install
 # crear backend/.env con:
 # MONGODB_URI=<tu URI de Atlas>
 # JWT_SECRET=<clave>
-# CLIENT_URL=http://localhost:5173
+# CLIENT_URL=http://localhost:5173   # o la URL pública del frontend
 npm run dev
 ```
 3) Frontend  
@@ -35,14 +35,14 @@ npm run dev
 cd client
 npm install
 # crear client/.env.local con:
-# VITE_API_URL=http://localhost:3001
+# VITE_API_URL=http://localhost:3001   # o https://final-1-1-nazf.onrender.com
 npm run dev
 ```
 4) Abrir `http://localhost:5173`
 
 ## Despliegue
-- Backend en Render: build `npm install`, start `npm start`, env `MONGODB_URI`, `JWT_SECRET`, `CLIENT_URL=<URL frontend>`.
-- Frontend en Vercel/Netlify: build `npm run build`, output `dist`, env `VITE_API_URL=<URL pública del backend>`.
+- Backend en Render: build `npm install`, start `npm start`, env `MONGODB_URI`, `JWT_SECRET`, `CLIENT_URL=https://coruscating-tapioca-385372.netlify.app`.
+- Frontend en Netlify: build `npm run build`, output `dist`, env `VITE_API_URL=https://final-1-1-nazf.onrender.com`.
 
 ## Créditos
 Camila Maturano · Eduardo Benjamin Lopez Avila · Lautaro Sebastian Mambrin · Pablo Méndez
