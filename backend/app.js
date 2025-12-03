@@ -22,6 +22,7 @@ app.use(express.json());
 
 // --- RUTAS ---
 app.use('/api/productos', productRoutes);
+app.use('/api/products', productRoutes); // alias en inglés
 app.use('/api/auth', authRoutes);
 app.use('/api/pedidos', orderRoutes);
 app.use('/api/orders', orderRoutes); // alias en inglés
